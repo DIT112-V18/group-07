@@ -37,8 +37,8 @@ void setup() {
 void loop() {
   // Maintain the speed and update the heading
   car.update();
-  int colli = front.getDistance();
-  Serial.println("obstacle at  : "+ colli);
+  int colli = front.getDistance();        //distance measured by the ultrasonic sensors
+  Serial.println("obstacle at  : ", colli);
 
   delay(100);
   car.getHeading();
