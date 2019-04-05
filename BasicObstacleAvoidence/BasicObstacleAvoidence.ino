@@ -40,7 +40,6 @@ void loop() {
   int colli = front.getDistance();        //distance measured by the ultrasonic sensors
   Serial.println("obstacle at  : ", colli);
 
-  delay(100);
   car.getHeading();
   car.getDistance();
   
@@ -49,15 +48,6 @@ void loop() {
     }  
     else{
       car.setSpeed(1.5);
-      car.update();
     }
   
 }
-
-
-
-
-
-//----------------------------------------------------------
-
-
