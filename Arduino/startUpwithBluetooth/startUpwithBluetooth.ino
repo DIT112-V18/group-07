@@ -8,6 +8,9 @@ const int TRIGGER_PIN = 6; //D6
 const int ECHO_PIN = 7; //D7
 const unsigned int MAX_DISTANCE = 100;
 char blue;
+float speed;
+int offset;
+
 SR04 front(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);                //bluetooth value reciever
 
 
@@ -15,14 +18,16 @@ BrushedMotor leftMotor(8, 10, 9);
 BrushedMotor rightMotor(12, 13, 11);
 DifferentialControl control(leftMotor, rightMotor);
 
-GY50 gyroscope(37);
-DirectionlessOdometer leftOdometer(100);
-DirectionlessOdometer rightOdometer(100);
+GY50 gyroscope(18);
+DirectionlessOdometer leftOdometer(183);
+DirectionlessOdometer rightOdometer(189);
 
 SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
 
 void setup() {
-  Serial.begin(9600);
+  Serial1.begin(9600);
+  speed = 0.0;
+  offset = gyroscope.getOffset();
   // Initialize the odometers (they won't work otherwise)
   leftOdometer.attach(LEFT_ODOMETER_PIN, []() {
     leftOdometer.update();
@@ -31,40 +36,86 @@ void setup() {
     rightOdometer.update();
   });
 
-  car.enableCruiseControl();
- // car.setSpeed(1.5);
 }
 
 void loop() {
   // Maintain the speed and update the heading
-    car.update();
+    //car.update();
    
-    while (Serial.available()) blue = Serial.read(); 
+    while (Serial1.available()) blue = Serial1.read(); 
     
-    //Serial.println("obstacle at  : "+ colli);
   
   
-      if(blue == '1'){            //Checks whether value of Incoming_value is equal to 1 
-
-          int colli = front.getDistance();        //distance measured by the ultrasonic sensors
-
-          if (colli<30 && colli>0){
-            car.setSpeed(0);        //stop moving car
-            
-          }  
-          else{
-            car.setSpeed(1.5);
-            car.getHeading();
-            car.getDistance();
-            
-          }
+      if(blue == 'w'){            //Checks whether value of Incoming_value is equal to 1 
+            int colli = front.getDistance();
           
+          if (colli<30 && colli>0){
+            if (speed >= 1){
+              speed =speed-1;
+              delay(20);
+              car.setAngle(-5);
+              car.setSpeed(speed);
+            }
+              
+        
+          } else{
+                seeSpeed(colli);
+          }
       }
       
-      else if(blue == '0'){       //Checks whether value of Incoming_value is equal to 0
+      else if(blue == 's'){       //Checks whether value of Incoming_value is equal to 0
           
           car.setSpeed(0);        //stop moving car
       }
   
     
+}
+void seeSpeed(int colli){
+  if (colli >= 30 && colli<40){
+    speed = 10;
+    car.setAngle(-5);
+    car.setSpeed(speed);
+
+  }
+  else if (colli >= 40 && colli<50){
+    speed = 20;
+    car.setAngle(-5);
+    car.setSpeed(speed);
+    
+
+  }
+  else if (colli >= 40 && colli<60){
+    speed = 30;
+    car.setAngle(-5);
+    car.setSpeed(speed);    
+
+
+  }
+  else if (colli >= 60 && colli<70){
+    speed = 50;
+    car.setAngle(-10);
+    car.setSpeed(speed);
+
+  }
+  else if (colli >= 70 && colli<80){
+    speed = 60;
+    car.setAngle(-15);
+    car.setSpeed(speed);
+
+  }
+  else if (colli >= 80 && colli<90){
+    speed = 70;
+    car.setAngle(-20);
+
+    car.setSpeed(speed);
+
+  }
+  else if (colli >= 90 || colli == 0 ){
+    speed = 80;
+    car.setAngle(-25);
+
+    car.setSpeed(speed);
+
+  }
+   
 }
