@@ -38,8 +38,8 @@ void setup() {
     rightOdometer.attach(RIGHT_ODOMETER_PIN, []() {
       rightOdometer.update();
     });
-
 }
+
 
 void loop() {
     if (Serial1.available()>0){
@@ -56,9 +56,13 @@ void loop() {
     }
 }
 void switchCases(String command){
-    String case = command.substring(0,1);
-    String speedB = command.substring(2,3);
+    String com = command.concat("ON");
+    String cases = com.substring(0,2);
+    String sportM= com.substring(2,4);
+    //if (cases.equals(""))
+    
 
+    //Serial.println(speedB);
 /*
  * LF both left wheels forward
 LB both left wheels backward
@@ -69,63 +73,68 @@ BB left and right backward
 RL right wheels forward left wheels backward
 LR left wheels forward right wheels backward
 */
-    if (case.equals("FF")){        
+    if (cases.equals("FF") && sportM.equals("ON")){        
       speed1=100;
       speed2=100;
       car.overrideMotorSpeed(speed1,speed2);
     } 
     
-    if (case.equals("BB")){
+    if (cases.equals("BB") && sportM.equals("ON")){
       speed1=-100;
       speed2=-100;
       car.overrideMotorSpeed(speed1,speed2);
     }
     
-    if (case.equals("LF")){
+    if (cases.equals("LF")&& sportM.equals("ON")){
       speed1=100;
       speed2=0;
       car.overrideMotorSpeed(speed1,speed2);
     }
     
-    if (case.equals("RF")){
+    if (cases.equals("RF")&& sportM.equals("ON")){
       speed1=0;
       speed2=100;
       car.overrideMotorSpeed(speed1,speed2);
     }
     
-    if (case.equals("LB")){
+    if (cases.equals("LB")&& sportM.equals("ON")){
       speed1=-100;
       speed2=0;
       car.overrideMotorSpeed(speed1,speed2);
     }
     
-    if (case.equals("RB")){
+    if (cases.equals("RB")&& sportM.equals("ON")){
       speed1=0;
       speed2=-100;
       car.overrideMotorSpeed(speed1,speed2);
     }
     
-    if (case.equals("00")){
+    if (cases.equals("00")){
         speed1=0; 
         speed2=0;
         car.overrideMotorSpeed(speed1,speed2);
     }
 
-    if (case.equals("RL")){
+    if (cases.equals("RL")&& sportM.equals("ON")){
         speed1=-100; 
         speed2=100;
         car.overrideMotorSpeed(speed1,speed2);
     }
 
-    if (case.equals("LR")){
-        speed1=100; 
-        speed2=-100;
+    if (cases.equals("LR")&& sportM.equals("ON")){
+        speed1 =  100; 
+        speed2 = -100;
         car.overrideMotorSpeed(speed1,speed2);
     }
 
-    if (case.equals("AC")){
-        
-      
+    if (cases.equals("AC")){
+        int speedB = command.substring(2,4).toInt();     
+        while (true){
+            if (Serial1.available()>0){
+                break;
+            }       
+            adaptiveCruise(speedB);
+        }
     }
     
   }
@@ -193,11 +202,11 @@ void decGrad(int s1, int s2){
 
 //----------------------------------------------------------
 
-void adaptiveCruise(){
+void adaptiveCruise(int safetyDistance){
   
   int colli = front.getDistance();
   
-  if (colli<30 && colli>0 ){
+  if (colli<safetyDistance && colli>0 ){
     if (speed >= 1){
       speed =speed-1;
       delay(20);
