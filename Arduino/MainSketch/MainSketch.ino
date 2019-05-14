@@ -150,7 +150,11 @@ void switchCases(String command){
     //------------------------Static cruise Control------------------->>
     if (cases.equals("SC")){
         int minSpeed = sportM.toInt();     // the value one the second ssubstring is the same as sportMod
-        staticCruiseControl(minSpeed);
+        speed = 0;
+        while (Serial1.available()==0){
+            staticCruiseControl(minSpeed);
+        }
+        car.setSpeed(0);
     }
     //-----------------------------------------------------------
   }
@@ -227,6 +231,21 @@ void seeSpeed(int colli){
 
 //-----------------------Static - Cruise - Control------------------
 
-void staticCruiseControl(int speed){
-  car.setSpeed(speed);
+void staticCruiseControl(int minSpeed){
+        int colli = front.getDistance();        //distance infront
+        if (colli>30){
+            speed = minSpeed;  //set the car speed to the minimum speed predefined if the collision distance is greater than 30
+        }                     
+        if (colli<30 && colli>0 ){
+          if (speed >= 1){
+            speed =speed-1;
+            delay(20);
+            car.setAngle(-20);
+            car.setSpeed(speed);
+          }
+        } else{
+            car.setAngle(-20);
+            car.setSpeed(minSpeed);  
+        }
+    
 }
