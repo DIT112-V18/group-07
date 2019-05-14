@@ -135,6 +135,91 @@ void switchCases(String command){
     }
 
     //------------------------Adaptive cruise Control------------------->>
-    //-----------------------------------------------------------
+    if (cases.equals("AC")){
+        int minDist = sportM.toInt();     // the value one the second ssubstring is the same as sportMod
+        while (true){
+            if (Serial1.available()>0){
+                break;
+            }       
+            adaptiveCruise(minDist);
+        }
+    }
+
     
+    //-----------------------------------------------------------
+    //------------------------Static cruise Control------------------->>
+    
+    //-----------------------------------------------------------
   }
+
+
+//-----------------------Adaptive - Cruise - Control------------------
+
+  void adaptiveCruise(int safetyDistance){
+  
+  int colli = front.getDistance();
+  
+  if (colli<safetyDistance && colli>0 ){
+    if (speed >= 1){
+      speed =speed-1;
+      delay(20);
+      car.setAngle(-20);
+      car.setSpeed(speed);
+    }
+
+  } else{
+          seeSpeed(colli);
+  }
+}
+
+void seeSpeed(int colli){
+    car.setAngle(-20);
+  if (colli >= 30 && colli<40){
+    speed = 10;
+    //car.setAngle(-13);
+    car.setSpeed(speed);
+    //car.overrideMotorSpeed(speed-16,speed);
+  }
+  else if (colli >= 40 && colli<50){
+    speed = 20;
+    //car.setAngle(-13);
+    car.setSpeed(speed);
+    
+    //car.overrideMotorSpeed(speed-16,speed);
+
+  }
+  else if (colli >= 40 && colli<60){
+    speed = 30;
+    //car.setAngle(-13);
+    car.setSpeed(speed); 
+
+    //car.overrideMotorSpeed(speed-offset,speed);
+
+  }
+  else if (colli >= 60 && colli<70){
+    speed = 40;
+    //car.setAngle(-13);
+    car.setSpeed(speed);
+    //car.overrideMotorSpeed(speed-offset,speed);
+
+  }
+  else if (colli >= 70 && colli<80){
+    speed = 50;
+    car.setSpeed(speed);
+
+  }
+  else if (colli >= 80 && colli<90){
+    speed = 60;
+    car.setSpeed(speed);
+
+  }
+  else if (colli >= 90 || colli == 0 ){
+    speed = 70;
+   
+    car.setSpeed(speed);
+  }
+  
+  car.update();
+}
+
+//-----------------------Static - Cruise - Control------------------
