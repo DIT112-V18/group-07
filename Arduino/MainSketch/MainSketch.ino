@@ -148,7 +148,10 @@ void switchCases(String command){
     
     //-----------------------------------------------------------
     //------------------------Static cruise Control------------------->>
-    
+    if (cases.equals("SC")){
+        int minSpeed = sportM.toInt();     // the value one the second ssubstring is the same as sportMod
+        staticCruiseControl(minSpeed);
+    }
     //-----------------------------------------------------------
   }
 
@@ -223,3 +226,7 @@ void seeSpeed(int colli){
 }
 
 //-----------------------Static - Cruise - Control------------------
+
+void staticCruiseControl(int speed){
+  car.setSpeed(speed);
+}
