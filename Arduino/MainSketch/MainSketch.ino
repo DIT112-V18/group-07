@@ -13,6 +13,7 @@ int speed = 0;                                                  //ACC speed
 int offset;
 int sw = 0;
 SR04 front(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);                //bluetooth value reciever
+bool flag = false;
 
 
 BrushedMotor leftMotor(8, 10, 9);
@@ -59,7 +60,7 @@ void switchCases(String command){
     String com = command;
     String cases = com.substring(0,2);
     String sportM= com.substring(2,4);
-    String angle = sportM;                    // same substring is used for tilt angle 
+    String angle = sportM.toInt();                    // same substring is used for tilt angle 
     //if (cases.equals(""))
     
 
@@ -122,10 +123,57 @@ void switchCases(String command){
         speed2 = -100;
         car.overrideMotorSpeed(speed1,speed2);
     }
+    //--------------------------Tilt - Control ---------------------------
+    //--------------------------------------------------------------------
+
+    if (cases.equals("FR") ){   
+      
+        speed1=100; 
+        speed2=100;   
+            
+        if (angle > 70) {
+          angle = 70;
+        }
+        int ss2= speed2 - angle;
+        car.overrideMotorSpeed(speed1,ss2);
+    } 
+    
+    if (cases.equals("FL") ){
+        speed1=100; 
+        speed2=100;
+        if (angle > 70) {
+          angle = 70;
+        }
+        int ss1= speed1 - angle;
+        car.overrideMotorSpeed(ss1,speed2);
+
+    }
+    
+    if (cases.equals("BR")){
+      
+        speed1=-100; 
+        speed2=-100;
+        if (angle > 70) {
+          angle = 70;
+        }
+        int ss2= speed2 - (angle * -1);
+        car.overrideMotorSpeed(speed1,ss2);
+        
+    }
+    
+    if (cases.equals("BL")){
+        speed1=-100; 
+        speed2=-100;
+        if (angle > 70) {
+          angle = 70;
+        }
+        int ss1= speed1 - (angle * -1);
+        car.overrideMotorSpeed(ss1,speed2);
+    }
 
 
     //-------------------------- Stop Case (Mobility)  ----------------->>
-    if (cases.equals("00")){
+    if (cases.equals("00")||cases.equals("0L")|| (cases.equals("0R"))){
         speed1=0; 
         speed2=0;
         
@@ -229,6 +277,8 @@ void seeSpeed(int colli){
   car.update();
 }
 
+
+//------------------------------------------------------------------
 //-----------------------Static - Cruise - Control------------------
 
 void staticCruiseControl(int minSpeed){
