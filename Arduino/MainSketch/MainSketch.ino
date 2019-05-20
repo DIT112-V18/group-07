@@ -65,7 +65,7 @@ void switchCases(String command){
     
 
 
-//---------------------------MOBILITY------------------------->>
+//---------------------------MOBILITY Sport mode ON------------------------->>
 /*
  *          LF both left wheels forward
             LB both left wheels backward
@@ -123,6 +123,57 @@ void switchCases(String command){
         speed2 = -100;
         car.overrideMotorSpeed(speed1,speed2);
     }
+    //-------------------------Mobility SportMode Off---------------------
+
+    
+    if (cases.equals("FF") && sportM.equals("OF")){        
+      speed1=100;
+      speed2=100;
+      car.overrideMotorSpeed(speed1,speed2);
+    } 
+    
+    if (cases.equals("BB") && sportM.equals("OF")){
+      speed1=-100;
+      speed2=-100;
+      car.overrideMotorSpeed(speed1,speed2);
+    }
+    
+    if (cases.equals("LF")&& sportM.equals("OF")){
+      speed1=100;
+      speed2=0;
+      car.overrideMotorSpeed(speed1,speed2);
+    }
+    
+    if (cases.equals("RF")&& sportM.equals("OF")){
+      speed1=0;
+      speed2=100;
+      car.overrideMotorSpeed(speed1,speed2);
+    }
+    
+    if (cases.equals("LB")&& sportM.equals("OF")){
+      speed1=-100;
+      speed2=0;
+      car.overrideMotorSpeed(speed1,speed2);
+    }
+    
+    if (cases.equals("RB")&& sportM.equals("OF")){
+      speed1=0;
+      speed2=-100;
+      car.overrideMotorSpeed(speed1,speed2);
+    }
+    
+    if (cases.equals("RL")&& sportM.equals("OF")){
+        speed1=-100; 
+        speed2=100;
+        car.overrideMotorSpeed(speed1,speed2);
+    }
+
+    if (cases.equals("LR")&& sportM.equals("OF")){
+        speed1 =  100; 
+        speed2 = -100;
+        car.overrideMotorSpeed(speed1,speed2);
+    }
+    
     //--------------------------Tilt - Control ---------------------------
     //--------------------------------------------------------------------
 
@@ -313,3 +364,66 @@ void staticCruiseControl(int minSpeed){
         }
     
 }
+
+//-----------------------------------------------------------------
+
+void incGrad(int s1, int s2){
+    if (s1 < 100){
+      speed =speed+1;
+      delay(20);
+      car.setAngle(-13);
+      car.overrideMotorSpeed(s1,s2);
+    }
+}
+void decGrad(int s1, int s2){
+    if (s1 > 0){
+      speed = speed - 1;
+      delay(20);
+      car.setAngle(-13);
+      car.overrideMotorSpeed(s1,s2);
+    }
+}
+
+
+void stopGrad(int s1,int s2,char SS){
+    if (SS = 'l') {
+        if (s1 >= 1){
+          speed1 =speed1-1;
+          delay(20);
+          car.setAngle(-13);
+          car.overrideMotorSpeed(speed1,speed2);
+        } else if (s1 < 0) {
+          speed1 =speed1+1;
+          delay(20);
+          car.setAngle(-13);
+          car.overrideMotorSpeed(speed1,speed2);
+        }
+    }
+    if (SS = 'r') {
+        if (s2 >= 1){
+          speed2 =speed2-1;
+          delay(20);
+          car.setAngle(-13);
+          car.overrideMotorSpeed(speed1,speed2);
+        } else if (s2 < 0) {
+          speed2 =speed2+1;
+          delay(20);
+          car.setAngle(-13);
+          car.overrideMotorSpeed(speed1,speed2);
+        }
+    }
+    if (SS = 'b') {
+        if (s2 >= 1 && s1 >= 1){
+          speed2 =speed2 - 1;
+          speed1 = speed1 - 1;
+          delay(20);
+          car.setAngle(-13);
+          car.overrideMotorSpeed(speed1,speed2);
+        } else if (s2 < 0 && s1 < 0) {
+          speed2 =speed2+1;
+          speed1 = speed1 +1;
+          delay(20);
+          car.setAngle(-13);
+          car.overrideMotorSpeed(speed1,speed2);
+        }
+    }
