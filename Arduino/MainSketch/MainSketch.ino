@@ -125,53 +125,40 @@ void switchCases(String command){
     }
     //-------------------------Mobility SportMode Off---------------------
 
-    
-    if (cases.equals("FF") && sportM.equals("OF")){        
-      speed1=100;
-      speed2=100;
-      car.overrideMotorSpeed(speed1,speed2);
+    /*
+ *          LF both left wheels forward
+            LB both left wheels backward
+            RF both right wheels forward
+            RB both right wheels backward
+            FF left and right forward
+            BB left and right backward
+            RL right wheels forward left wheels backward
+            LR left wheels forward right wheels backward
+*/
+
+    if (cases.equals("FF") && sportM.equals("OF")){
+        
     } 
     
     if (cases.equals("BB") && sportM.equals("OF")){
-      speed1=-100;
-      speed2=-100;
-      car.overrideMotorSpeed(speed1,speed2);
     }
     
     if (cases.equals("LF")&& sportM.equals("OF")){
-      speed1=100;
-      speed2=0;
-      car.overrideMotorSpeed(speed1,speed2);
     }
     
     if (cases.equals("RF")&& sportM.equals("OF")){
-      speed1=0;
-      speed2=100;
-      car.overrideMotorSpeed(speed1,speed2);
     }
     
     if (cases.equals("LB")&& sportM.equals("OF")){
-      speed1=-100;
-      speed2=0;
-      car.overrideMotorSpeed(speed1,speed2);
     }
     
     if (cases.equals("RB")&& sportM.equals("OF")){
-      speed1=0;
-      speed2=-100;
-      car.overrideMotorSpeed(speed1,speed2);
     }
     
     if (cases.equals("RL")&& sportM.equals("OF")){
-        speed1=-100; 
-        speed2=100;
-        car.overrideMotorSpeed(speed1,speed2);
     }
 
     if (cases.equals("LR")&& sportM.equals("OF")){
-        speed1 =  100; 
-        speed2 = -100;
-        car.overrideMotorSpeed(speed1,speed2);
     }
     
     //--------------------------Tilt - Control ---------------------------
