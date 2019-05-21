@@ -170,6 +170,7 @@ void switchCases(String command){
             }
             speed1=speed+1;
             car.overrideMotorSpeed(speed1,speed2);
+            delay(20);
           }
       
       
@@ -184,6 +185,7 @@ void switchCases(String command){
           }
           speed2=speed2+1;
           car.overrideMotorSpeed(speed1,speed2);
+          delay(20);
           }
     }
     
@@ -196,6 +198,7 @@ void switchCases(String command){
             }
             speed1=speed-1;
             car.overrideMotorSpeed(speed1,speed2);
+            delay(20);
           }
     }
     
@@ -208,14 +211,38 @@ void switchCases(String command){
           }
           speed2=speed2-1;
           car.overrideMotorSpeed(speed1,speed2);
+          delay(20);
           }
       
     }
     
     if (cases.equals("RL")&& sportM.equals("OF")){
+      speed1=0;
+      speed2=0;
+      while(speed1>=-50 && speed2 <= 50){
+        speed1=speed1 - 1;
+        speed2=speed2 + 1;
+        car.overrideMotorSpeed(speed1,speed2);
+        delay(20);
+        
+        }
+      
+     
+
+      
     }
 
     if (cases.equals("LR")&& sportM.equals("OF")){
+      speed1=0;
+      speed2=0;
+      while(speed1 <= 50 && speed2>=-50){
+        speed1=speed1+1;
+        speed2=speed2-1;
+        car.overrideMotorSpeed(speed1,speed2);
+        delay(20);
+        
+        }
+      
     }
     
     //--------------------------Tilt - Control ---------------------------
