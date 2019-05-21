@@ -354,7 +354,7 @@ void staticCruiseControl(int minSpeed){
 
 //-----------------------------------------------------------------
 
-void incGrad(int s1, int s2){
+/*void incGrad(int s1, int s2){
     if (s1 < 100){
       speed =speed+1;
       delay(20);
@@ -413,4 +413,4 @@ void stopGrad(int s1,int s2,char SS){
           car.setAngle(-13);
           car.overrideMotorSpeed(speed1,speed2);
         }
-    }
+    }*/
