@@ -60,7 +60,7 @@ void switchCases(String command){
     String com = command;
     String cases = com.substring(0,2);
     String sportM= com.substring(2,4);
-    String angle = sportM.toInt();                    // same substring is used for tilt angle 
+    int angle = sportM.toInt();                    // same substring is used for tilt angle 
     //if (cases.equals(""))
     
 
@@ -248,7 +248,17 @@ void switchCases(String command){
         car.setSpeed(0);
     }
     //-----------------------------------------------------------
+    //-----------------------------------------------------------
+    //------------------------Obstacle Manouvering------------------->>
+    if (cases.equals("OM")){
+        speed = 0;
+        turnFunction();
+    }
+    
+    //---------------------------END Switch Cases--------------------------
   }
+
+
 
 
 //-----------------------Adaptive - Cruise - Control------------------
@@ -353,64 +363,163 @@ void staticCruiseControl(int minSpeed){
 }
 
 //-----------------------------------------------------------------
-
-/*void incGrad(int s1, int s2){
-    if (s1 < 100){
-      speed =speed+1;
-      delay(20);
-      car.setAngle(-13);
-      car.overrideMotorSpeed(s1,s2);
+//--------------------Manouvering -----------
+void turnFunction(){
+    
+    colli = front.getDistance();
+    rightColli = right.getDistance();
+    leftColli= left.getDistance();
+    
+    if (turnmood == false){
+        if (speed == 0){
+          turnmood = true;
+          prevColli = colli;
+  
+          //------------checking which sides are empty-----
+          //myservo.write(0);             //watch the right side
+          
+          Serial.println(rightColli);
+          if (rightColli > (2*colli) || rightColli == 0){
+            rightS = true;
+          } 
+  
+          Serial.println(leftColli);
+          if (leftColli  > (2*colli) || leftColli == 0){
+            leftS = true;
+          }
+          
+          //myservo.write(90);           
+  
+          //-------------------------------------------------
+  
+          if (leftS == true){          //turning to right
+            turnLeft();
+            side = 4;             //left side starter
+  
+          }
+          else if (rightS == true){                       //turning to left 
+            turnRight();
+            side = 1;             // . right side starter
+          }
+        }
     }
+    //turnmode == true----> 
+    else {
+          if (side == 1){           //right side trigger
+          
+              leftColli = left.getDistance();
+              
+              if (leftColli  <= (prevColli+10) && leftColli > 0){
+                 car.setSpeed(40);
+              } 
+              else {
+                car.setSpeed(0);
+                prevColli = leftColli;
+                delay(100);
+                turnLeft();
+                car.setSpeed(40);
+                delay(1500);
+                car.setSpeed(0);
+                
+                side = 2;
+              }
+          }
+          if (side == 2){     
+              
+              leftColli = left.getDistance();
+     
+              if (leftColli  <= (prevColli+10) && leftColli > 0){
+                   car.setSpeed(40);
+              }else {
+                car.setSpeed(0);
+                delay(100);
+                turnLeft();
+                car.setSpeed(40);
+                delay(800);
+                car.setSpeed(0);
+    
+                side = 3;
+              } 
+            
+          } 
+          
+          if (side == 3){      
+                turnRight();
+                delay(100);
+                turnmood = false;
+          } 
+    
+    
+          if (side == 4){           //right side trigger
+              
+              rightColli = right.getDistance();
+              
+              if (rightColli  <= (prevColli+10) && rightColli > 0){
+                 car.setSpeed(40);
+              } 
+              else {
+                car.setSpeed(0);
+                prevColli = rightColli;
+                delay(100);
+                turnRight();
+                car.setSpeed(40);
+                delay(1500);
+                car.setSpeed(0);
+                
+                side = 5;
+              }
+    
+            
+          } 
+          if (side == 5){     
+              
+              rightColli = right.getDistance();
+     
+              if (rightColli  <= (prevColli+10) && rightColli > 0){
+                   car.setSpeed(40);
+              }else {
+                car.setSpeed(0);
+                delay(100);
+                turnRight();
+                car.setSpeed(40);
+                delay(800);
+                car.setSpeed(0);
+    
+                side = 6;
+              } 
+            
+          } 
+          
+          if (side == 6){      
+                turnLeft();
+                delay(100);
+                turnmood = false;
+          } 
+    }
+
+
+  
 }
-void decGrad(int s1, int s2){
-    if (s1 > 0){
-      speed = speed - 1;
-      delay(20);
-      car.setAngle(-13);
-      car.overrideMotorSpeed(s1,s2);
-    }
+
+
+//-----------------------------------------------------------------
+//------------------------Turning Functions ------------
+void turnRight(){
+    car.setSpeed(40);
+    car.setAngle(90);
+    //car.overrideMotorSpeed(30,0);
+    delay(800);
+    car.setSpeed(0);
+    delay(10); 
+    car.setAngle(-18);
 }
-
-
-void stopGrad(int s1,int s2,char SS){
-    if (SS = 'l') {
-        if (s1 >= 1){
-          speed1 =speed1-1;
-          delay(20);
-          car.setAngle(-13);
-          car.overrideMotorSpeed(speed1,speed2);
-        } else if (s1 < 0) {
-          speed1 =speed1+1;
-          delay(20);
-          car.setAngle(-13);
-          car.overrideMotorSpeed(speed1,speed2);
-        }
-    }
-    if (SS = 'r') {
-        if (s2 >= 1){
-          speed2 =speed2-1;
-          delay(20);
-          car.setAngle(-13);
-          car.overrideMotorSpeed(speed1,speed2);
-        } else if (s2 < 0) {
-          speed2 =speed2+1;
-          delay(20);
-          car.setAngle(-13);
-          car.overrideMotorSpeed(speed1,speed2);
-        }
-    }
-    if (SS = 'b') {
-        if (s2 >= 1 && s1 >= 1){
-          speed2 =speed2 - 1;
-          speed1 = speed1 - 1;
-          delay(20);
-          car.setAngle(-13);
-          car.overrideMotorSpeed(speed1,speed2);
-        } else if (s2 < 0 && s1 < 0) {
-          speed2 =speed2+1;
-          speed1 = speed1 +1;
-          delay(20);
-          car.setAngle(-13);
-          car.overrideMotorSpeed(speed1,speed2);
-        }
-    }*/
+void turnLeft(){
+    car.setSpeed(40);
+    car.setAngle(-90);
+    //car.overrideMotorSpeed(0,30);
+    delay(825);
+    car.setSpeed(0);
+    delay(10);
+    car.setAngle(-18);
+}
+//------------------------------------------------------
