@@ -123,7 +123,7 @@ void switchCases(String command){
         speed2 = -100;
         car.overrideMotorSpeed(speed1,speed2);
     }
-    //-------------------------Mobility SportMode Off---------------------
+        //-------------------------Mobility SportMode Off---------------------
 
     /*
  *          LF both left wheels forward
@@ -137,28 +137,107 @@ void switchCases(String command){
 */
 
     if (cases.equals("FF") && sportM.equals("OF")){
-        
+        speed=0;
+        while(speed<=50){
+          if(Serial1.available()>0){
+            break;
+            }
+            speed=speed+1;
+            car.setSpeed(speed);
+            delay(20);
+          }
     } 
     
     if (cases.equals("BB") && sportM.equals("OF")){
+      speed=0;
+        while(speed >=-50){
+          if(Serial1.available()>0){
+            break;
+            }
+            speed=speed-1;
+            car.setSpeed(speed);
+            delay(20);
+          }
+      
     }
     
     if (cases.equals("LF")&& sportM.equals("OF")){
+      speed1=0;
+      speed2=0;
+      while(speed1 <= 50){
+          if(Serial1.available()>0){
+            break;
+            }
+            speed1=speed1+1;
+            car.overrideMotorSpeed(speed1,speed2);
+            delay(20);
+          }
+      
+      
     }
     
     if (cases.equals("RF")&& sportM.equals("OF")){
+      speed1=0
+      speed2=0
+      while(speed2<=50){
+        if(Serial1.available()>0){
+          break;
+          }
+          speed2=speed2+1;
+          car.overrideMotorSpeed(speed1,speed2);
+          delay(20);
+          }
     }
     
     if (cases.equals("LB")&& sportM.equals("OF")){
+      speed1=0;
+      speed2=0;
+      while(speed1 >= -50){
+          if(Serial1.available()>0){
+            break;
+            }
+            speed1=speed1-1;
+            car.overrideMotorSpeed(speed1,speed2);
+            delay(20);
+          }
     }
     
     if (cases.equals("RB")&& sportM.equals("OF")){
+      speed1=0
+      speed2=0
+      while(speed2 >= -50){
+        if(Serial1.available()>0){
+          break;
+          }
+          speed2=speed2-1;
+          car.overrideMotorSpeed(speed1,speed2);
+          delay(20);
+          }
+      
     }
     
     if (cases.equals("RL")&& sportM.equals("OF")){
+      speed1=0;
+      speed2=0;
+      while(speed1>=-50 && speed2 <= 50){
+        speed1=speed1 - 1;
+        speed2=speed2 + 1;
+        car.overrideMotorSpeed(speed1,speed2);
+        delay(20);
+        
+        }
     }
 
     if (cases.equals("LR")&& sportM.equals("OF")){
+      speed1=0;
+      speed2=0;
+      while(speed1 <= 50 && speed2>=-50){
+        speed1=speed1+1;
+        speed2=speed2-1;
+        car.overrideMotorSpeed(speed1,speed2);
+        delay(20);
+        
+        }
     }
     
     //--------------------------Tilt - Control ---------------------------
