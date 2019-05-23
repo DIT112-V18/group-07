@@ -14,6 +14,8 @@ int offset;
 int sw = 0;
 SR04 front(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);                //bluetooth value reciever
 bool flag = false;
+int frontLEDs = 39;
+int backLEDs = 37;
 
 
 BrushedMotor leftMotor(8, 10, 9);
@@ -27,6 +29,8 @@ DirectionlessOdometer rightOdometer(189);
 SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
 
 void setup() { 
+    pinMode(frontLEDs,OUTPUT);
+    pinMode(backLEDs,OUTPUT);
     Serial1.begin(9600);
     Serial.begin(9600);
     speed1 = 0;
@@ -64,6 +68,18 @@ void switchCases(String command){
     //if (cases.equals(""))
     
 
+//--------------------------------HEAD LIGHTS TURNING ON AND OFF-----------------------
+/*
+            HO headlights turn ON
+            HF headlights turn OFF
+*/
+    if(cases.equals("HO")){
+      digitalWrite(frontLEDs,HIGH);
+    }
+    
+    if(cases.equals("HF")){
+      digitalWrite(frontLEDs,LOW);
+    }
 
 //---------------------------MOBILITY Sport mode ON------------------------->>
 /*
@@ -137,28 +153,40 @@ void switchCases(String command){
 */
 
     if (cases.equals("FF") && sportM.equals("OF")){
-        
+       
     } 
     
     if (cases.equals("BB") && sportM.equals("OF")){
+     
+      
     }
     
     if (cases.equals("LF")&& sportM.equals("OF")){
+ 
     }
     
     if (cases.equals("RF")&& sportM.equals("OF")){
+     
     }
     
     if (cases.equals("LB")&& sportM.equals("OF")){
+     
     }
     
     if (cases.equals("RB")&& sportM.equals("OF")){
+      
     }
     
     if (cases.equals("RL")&& sportM.equals("OF")){
+      
+     
+
+      
     }
 
     if (cases.equals("LR")&& sportM.equals("OF")){
+   
+      
     }
     
     //--------------------------Tilt - Control ---------------------------
@@ -218,6 +246,9 @@ void switchCases(String command){
         car.setAngle(0);
         Serial1.print(speed1);
         car.overrideMotorSpeed(speed1,speed2);
+        digitalWrite(backLEDs,HIGH);
+        delay(700);
+        digitalWrite(backLEDs,LOW);
     }
 
     //------------------------Adaptive cruise Control------------------->>
@@ -352,6 +383,8 @@ void staticCruiseControl(int minSpeed){
     
 }
 
+  
+//-----------------------------------------------------------------
 //-----------------------------------------------------------------
 
 /*void incGrad(int s1, int s2){
