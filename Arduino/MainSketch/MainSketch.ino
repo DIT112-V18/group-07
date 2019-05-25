@@ -4,16 +4,22 @@ const unsigned short LEFT_ODOMETER_PIN = 2;
 const unsigned short RIGHT_ODOMETER_PIN = 3;
 const unsigned long PRINT_INTERVAL = 100;
 unsigned long previousPrintout = 0;
-const int TRIGGER_PIN = 6; //D6
-const int ECHO_PIN = 7; //D7
+const int TRIGGER_PIN = 6; //D6 front 
+const int ECHO_PIN = 7; //D7 front 
+const int TRIGGER_PIN_L = 52; //D52 left
+const int ECHO_PIN_L = 50 ; //D50 left
+const int TRIGGER_PIN_R = 48 ; //D48 right 
+const int ECHO_PIN_R = 46 ; //D46 right
 const unsigned int MAX_DISTANCE = 100;
 String cmd;                                                //command received from bluetooth
 int speed1, speed2;
 int speed = 0;                                                  //ACC speed 
 int offset;
-int sw = 0;
-SR04 front(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);                //bluetooth value reciever
-bool flag = false;
+
+SR04 front(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);                //bluetooth value reciever front
+SR04 right(TRIGGER_PIN_R, ECHO_PIN_R, MAX_DISTANCE);                //bluetooth value reciever right 
+SR04 left(TRIGGER_PIN_L, ECHO_PIN_L, MAX_DISTANCE);                //bluetooth value reciever left
+bool finishedTurning = false;
 
 
 BrushedMotor leftMotor(8, 10, 9);
@@ -23,14 +29,25 @@ DifferentialControl control(leftMotor, rightMotor);
 GY50 gyroscope(18);
 DirectionlessOdometer leftOdometer(183);
 DirectionlessOdometer rightOdometer(189);
-
+bool turnmood,step1,step2,step3;
 SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
+
+bool rightS = false;
+bool leftS = false;
+int side = 0;
+int prevColli=0;
+
 
 void setup() { 
     Serial1.begin(9600);
     Serial.begin(9600);
     speed1 = 0;
     speed2 = 0;
+    
+    turnmood = false;
+    step1 = false;
+    step2 = false;
+    step3 = false;
     offset = gyroscope.getOffset();
     // Initialize the odometers (they won't work otherwise)
     leftOdometer.attach(LEFT_ODOMETER_PIN, []() {
@@ -61,9 +78,7 @@ void switchCases(String command){
     String cases = com.substring(0,2);
     String sportM= com.substring(2,4);
     int angle = sportM.toInt();                    // same substring is used for tilt angle 
-    //if (cases.equals(""))
-    
-
+   
 
 //---------------------------MOBILITY Sport mode ON------------------------->>
 /*
@@ -252,7 +267,11 @@ void switchCases(String command){
     //------------------------Obstacle Manouvering------------------->>
     if (cases.equals("OM")){
         speed = 0;
-        turnFunction();
+        while (finishedTurning == false){
+        
+            turnFunction();
+        }
+        finishedTurning = true;
     }
     
     //---------------------------END Switch Cases--------------------------
@@ -366,9 +385,9 @@ void staticCruiseControl(int minSpeed){
 //--------------------Manouvering -----------
 void turnFunction(){
     
-    colli = front.getDistance();
-    rightColli = right.getDistance();
-    leftColli= left.getDistance();
+    int colli = front.getDistance();
+    int rightColli = right.getDistance();
+    int leftColli= left.getDistance();
     
     if (turnmood == false){
         if (speed == 0){
@@ -447,6 +466,7 @@ void turnFunction(){
                 turnRight();
                 delay(100);
                 turnmood = false;
+                finishedTurning = true;
           } 
     
     
@@ -494,6 +514,7 @@ void turnFunction(){
                 turnLeft();
                 delay(100);
                 turnmood = false;
+                finishedTurning = true;
           } 
     }
 
