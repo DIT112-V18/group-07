@@ -164,18 +164,6 @@ void switchCases(String command){
     if (cases.equals("RF")&& sportM.equals("OF")){
     }
     
-    if (cases.equals("LB")&& sportM.equals("OF")){
-    }
-    
-    if (cases.equals("RB")&& sportM.equals("OF")){
-    }
-    
-    if (cases.equals("RL")&& sportM.equals("OF")){
-    }
-
-    if (cases.equals("LR")&& sportM.equals("OF")){
-    }
-    
     //--------------------------Tilt - Control ---------------------------
     //--------------------------------------------------------------------
 
