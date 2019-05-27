@@ -390,7 +390,7 @@ void turnFunction(){
     int leftColli= left.getDistance();
     
     if (turnmood == false){
-        if (speed == 0){
+        if (speed == 0 && colli < 30){
           turnmood = true;
           prevColli = colli;
   
@@ -529,7 +529,7 @@ void turnRight(){
     car.setSpeed(40);
     car.setAngle(90);
     //car.overrideMotorSpeed(30,0);
-    delay(800);
+    delay(900);
     car.setSpeed(0);
     delay(10); 
     car.setAngle(-18);
