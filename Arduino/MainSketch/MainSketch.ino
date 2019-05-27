@@ -192,8 +192,8 @@ void switchCases(String command){
     }
 
     if (cases.equals("RF")&& sportM.equals("OF")){
-      speed1=0
-      speed2=0
+      speed1=0;
+      speed2=0;
       while(speed2<=50){
         if(Serial1.available()>0){
           break;
@@ -218,8 +218,8 @@ void switchCases(String command){
     }
 
     if (cases.equals("RB")&& sportM.equals("OF")){
-      speed1=0
-      speed2=0
+      speed1=0;
+      speed2=0;
       while(speed2 >= -50){
         if(Serial1.available()>0){
           break;
