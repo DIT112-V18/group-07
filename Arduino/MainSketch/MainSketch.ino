@@ -60,7 +60,7 @@ void switchCases(String command){
     String com = command;
     String cases = com.substring(0,2);
     String sportM= com.substring(2,4);
-    String angle = sportM.toInt();                    // same substring is used for tilt angle 
+    int angle = sportM.toInt();                    // same substring is used for tilt angle 
     //if (cases.equals(""))
     
 
