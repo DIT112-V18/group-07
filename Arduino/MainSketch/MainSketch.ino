@@ -22,6 +22,10 @@ SR04 left(TRIGGER_PIN_L, ECHO_PIN_L, MAX_DISTANCE);                //bluetooth v
 bool finishedTurning = false;
 
 
+int frontLED1 = 39;
+int frontLED2 = 41;
+int backLEDs = 37;
+
 BrushedMotor leftMotor(8, 10, 9);
 BrushedMotor rightMotor(12, 13, 11);
 DifferentialControl control(leftMotor, rightMotor);
@@ -39,6 +43,12 @@ int prevColli=0;
 
 
 void setup() {
+
+    pinMode(frontLED1,OUTPUT);
+    pinMode(frontLED2,OUTPUT);
+    pinMode(backLEDs,OUTPUT);
+
+
     Serial1.begin(9600);
     Serial.begin(9600);
     speed1 = 0;
@@ -79,6 +89,20 @@ void switchCases(String command){
     String sportM= com.substring(2,4);
     int angle = sportM.toInt();                    // same substring is used for tilt angle
 
+//--------------------------------HEAD LIGHTS TURNING ON AND OFF-----------------------
+/*
+            HO headlights turn ON
+            HF headlights turn OFF
+*/
+    if(cases.equals("HO")){
+      digitalWrite(frontLED1,HIGH);
+      digitalWrite(frontLED2,HIGH);
+    }
+
+    if(cases.equals("HF")){
+      digitalWrite(frontLED1,LOW);
+      digitalWrite(frontLED2,HIGH);
+    }
 
 //---------------------------MOBILITY Sport mode ON------------------------->>
 /*
@@ -306,12 +330,22 @@ void switchCases(String command){
 
     //-------------------------- Stop Case (Mobility)  ----------------->>
     if (cases.equals("00")||cases.equals("0L")|| (cases.equals("0R"))){
+        breakLightON();
+        int period = 20;
+        unsigned long time_now = 0;
         speed1=0;
         speed2=0;
 
         car.setAngle(0);
         Serial1.print(speed1);
         car.overrideMotorSpeed(speed1,speed2);
+
+        time_now = millis();
+
+        //delay
+        while(millis() < time_now + period){
+            breakLightOFF();
+        }
     }
 
     //------------------------Adaptive cruise Control------------------->>
@@ -337,7 +371,6 @@ void switchCases(String command){
             }else {
                 staticCruiseControl(minSpeed);
             }
-
         }
         car.setSpeed(0);
     }
@@ -450,7 +483,6 @@ void staticCruiseControl(int minSpeed){
             while(millis() < time_now + period){
               speed =speed-1;
             }
-
 
           }
         } else{
@@ -596,9 +628,6 @@ void turnFunction(){
                 finishedTurning = true;
           }
     }
-
-
-
 }
 
 
@@ -623,3 +652,12 @@ void turnLeft(){
     car.setAngle(-18);
 }
 //------------------------------------------------------
+//--------------------------------Break LIGHTS TURNING ON AND OFF-----------------------
+void breakLightON(){
+    digitalWrite(backLEDs,HIGH);
+}
+
+void breakLightOFF(){
+    digitalWrite(backLEDs,LOW);
+}
+//------------------------------------------------------------------
