@@ -43,11 +43,11 @@ int prevColli=0;
 
 
 void setup() {
-  
+
     pinMode(frontLED1,OUTPUT);
     pinMode(frontLED2,OUTPUT);
     pinMode(backLEDs,OUTPUT);
-    
+
 
     Serial1.begin(9600);
     Serial.begin(9600);
@@ -98,7 +98,7 @@ void switchCases(String command){
       digitalWrite(frontLED1,HIGH);
       digitalWrite(frontLED2,HIGH);
     }
-    
+
     if(cases.equals("HF")){
       digitalWrite(frontLED1,LOW);
       digitalWrite(frontLED2,HIGH);
