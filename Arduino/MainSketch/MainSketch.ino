@@ -22,7 +22,8 @@ SR04 left(TRIGGER_PIN_L, ECHO_PIN_L, MAX_DISTANCE);                //bluetooth v
 bool finishedTurning = false;
 
 
-int frontLEDs = 39;
+int frontLED1 = 39;
+int frontLED2 = 41;
 int backLEDs = 37;
 
 BrushedMotor leftMotor(8, 10, 9);
@@ -43,10 +44,10 @@ int prevColli=0;
 
 void setup() {
   
-    pinMode(frontLEDs,OUTPUT);
+    pinMode(frontLED1,OUTPUT);
+    pinMode(frontLED2,OUTPUT);
     pinMode(backLEDs,OUTPUT);
     
-    digitalWrite(frontLEDs,HIGH);               //turning on the head lights on the Car start On 
 
     Serial1.begin(9600);
     Serial.begin(9600);
@@ -94,11 +95,13 @@ void switchCases(String command){
             HF headlights turn OFF
 */
     if(cases.equals("HO")){
-      digitalWrite(frontLEDs,HIGH);
+      digitalWrite(frontLED1,HIGH);
+      digitalWrite(frontLED2,HIGH);
     }
     
     if(cases.equals("HF")){
-      digitalWrite(frontLEDs,LOW);
+      digitalWrite(frontLED1,LOW);
+      digitalWrite(frontLED2,HIGH);
     }
 
 //---------------------------MOBILITY Sport mode ON------------------------->>
