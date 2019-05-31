@@ -34,7 +34,7 @@
 * The obstacle detection feature ensures the safety of the car and it's surroundings. It will make sure that the car doesn't crash into stationary or moving objects.
 * The cruise control feature will be added to minimise the need of repeated user input to perform basic straight line mobility. 
 * The car needs to be able to manoeuvre forward, backwards, left ,right and also be able to stop in order to provide the staple functionalities of a car. 
-* The gesture control feature provides a more intuitive way of operating the car. It eradicates the problem of undesired tapping of buttons on the remote. It is essentially a smarter way of registering user input.
+* The tilt control feature provides an easier way to maneuver the car. By tilting the phone, the car will either move left or right. Eliminating the problem of tapping several buttons to move the car left and right. It is a smarter way of moving the car.
 * Parking esentially follows a general algorithm. We have employed this algorithm to automate parking of the car, hence reducing redundant work-load on the user. 
 * Tail lamps and brake lamps increase visibility of the car in it's surroundings, thus adding to the factor of safety. 
 
