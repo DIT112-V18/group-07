@@ -104,12 +104,12 @@ void switchCases(String command){
             HO headlights turn ON
             HF headlights turn OFF
 */
-    if(cases.equals("HO")){
+    if(com.equals("LION")){
       digitalWrite(frontLED1,HIGH);
       digitalWrite(frontLED2,HIGH);
     }
 
-    if(cases.equals("HF")){
+    if(com.equals("LIOF")){
       digitalWrite(frontLED1,LOW);
       digitalWrite(frontLED2,LOW);
     }
@@ -428,9 +428,6 @@ void switchCases(String command){
 
     //---------------------------END Switch Cases--------------------------
   }
-
-
-
 
 //-----------------------Adaptive - Cruise - Control------------------
 
