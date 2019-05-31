@@ -20,6 +20,9 @@
 ## Autonomous parking:
 * Parallel parking
 
+## Tilt control: 
+* Basic mobility 
+
 ## Autopilot driving: 
 * Driving on a single line
 
