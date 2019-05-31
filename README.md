@@ -59,6 +59,14 @@
 - USB A-B Cable
 - Surge protector 
 
+## Project Developers:  
+- Lema Rassul
+- Talha Hussain
+- Haider Ali
+- Osman Osman
+- Mujahid Khan
+- Ali Aziz
+
 
 
 
