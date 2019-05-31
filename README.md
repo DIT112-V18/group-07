@@ -24,8 +24,8 @@
 ## Autonomous parking:
 * Parallel parking
 
-## Autonomous driving: 
-* Drive between the lines
+## Autopilot driving: 
+* Driving on a single line
 
 ## Tail lamps and head lamps
 * Tail lamps will turn on upon braking
