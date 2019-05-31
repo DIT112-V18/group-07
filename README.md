@@ -42,7 +42,7 @@
 * Obstacle detection and manoeuvring will be made by using infrared sensors, ultrasonic sensors and a servo motor (to mount the ultrasonic sensor).
 * Mobility will be implemented through the smartcar library and the gyroscope.
 * Cruise control, autopilot and autonomous parking will be managed by an ultrasonic sensor.
-* Raspberry Pi and the OpenCV library will be used to implement the gesture control feature.
+* Tilt Control will be managed by the gyroscope in the users mobile device.
 
 
 
