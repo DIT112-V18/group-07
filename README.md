@@ -17,10 +17,6 @@
 * Static
 * Adaptive
 
-## Gesture control:
-* Basic mobility
-* Parallel parking
-
 ## Autonomous parking:
 * Parallel parking
 
