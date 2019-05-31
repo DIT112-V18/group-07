@@ -44,5 +44,21 @@
 * Cruise control, autopilot and autonomous parking will be managed by an ultrasonic sensor.
 * Tilt Control will be managed by the gyroscope in the users mobile device.
 
+## Hardware Used
+- Arduino MEGA 2560
+- SmartCar
+- 5x Ultrasonic sensors 
+- 1x IR Sensor 
+- 3x Breadboards
+- Battery Pack(4 batteries)
+- Bluetooth HC-06
+- 4x DC motors
+- Gyroscope
+- 2x Odometers
+- Android Smartphone (running 9.0 or later) 
+- USB A-B Cable
+- Surge protector 
+
+
 
 
