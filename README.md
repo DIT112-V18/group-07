@@ -96,6 +96,10 @@ For developement the source code of the app is availabe under the folder Arduino
 ## Manual
 This is a link to an extensive manual showing you in detail how to use the app in the easiest way possible. 
 https://github.com/DIT112-V19/group-07/blob/master/Carduino-Manual.pdf
+
+## Demo Video
+
+https://youtu.be/qLNNTJLamhI
  
 ## Project Developers  
 - Lema Rassul
