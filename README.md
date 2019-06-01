@@ -77,6 +77,25 @@ The features are of course dependant on the hardware we are using. We were using
 - Visual Paradigm (Software architecture)
 
 ## Installation and getting started
+To be able to use the app you first have to install both the app and the arduino sketch has to be uploaded to the vehicle. 
+These are the steps needed for installation and getting started
+
+1. Download the Arduino IDE
+2. Install the Smartcar shield library
+3. Copy our Main sketch https://github.com/DIT112-V19/group-07/blob/master/Arduino/MainSketch/MainSketch.ino
+4. Connect the Smartcar
+5. Compile the sketch and upload it to the Smartcar
+
+**You then need to download the android app**
+
+Download our apk and install on an android 9 smartphone ( https://github.com/DIT112-V19/group-07/blob/master/Installable%20Application/app-debug.apk )
+
+For developement the source code of the app is availabe under the folder Arduinoremote2 ( https://github.com/DIT112-V19/group-07/tree/master/ArduinoRemote2 )
+
+
+## Manual
+This is a link to an extensive manual showing you in detail how to use the app in the easiest way possible. 
+https://github.com/DIT112-V19/group-07/blob/master/Carduino-Manual.pdf
  
 ## Project Developers  
 - Lema Rassul
