@@ -16,8 +16,6 @@ const int TRIGGER_PIN_L = 52; //D52 left
 const int ECHO_PIN_L = 50 ; //D50 left
 const int TRIGGER_PIN_R = 48 ; //D48 right
 const int ECHO_PIN_R = 46 ; //D46 right
-const int TRIGGER_PIN_B = 53; //D53 back
-const int ECHO_PIN_B = 51; //D51 back
 const unsigned int MAX_DISTANCE = 100;
 String cmd;                                                //command received from bluetooth
 int speed1, speed2;
@@ -27,7 +25,6 @@ int offset;
 SR04 front(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);                //bluetooth value reciever front
 SR04 right(TRIGGER_PIN_R, ECHO_PIN_R, MAX_DISTANCE);                //bluetooth value reciever right
 SR04 left(TRIGGER_PIN_L, ECHO_PIN_L, MAX_DISTANCE);                //bluetooth value reciever left
-SR04 back(TRIGGER_PIN_B, ECHO_PIN_B, MAX_DISTANCE);                 //bluetooth value reciever back
 bool finishedTurning = false;
 
 
@@ -83,6 +80,8 @@ void setup() {
 
 
 void loop() {
+    Serial1.write(speed);
+
     if (Serial1.available()>0){
         char info = Serial1.read();
         cmd.concat(info);
@@ -128,16 +127,12 @@ void switchCases(String command){
             RL right wheels forward left wheels backward
             LR left wheels forward right wheels backward
 */
-   if (obstacleDetection()==false){                    //obstacle detection
   
       if (cases.equals("FF") && sportM.equals("ON")){
         speed1=100;
         speed2=100;
         car.overrideMotorSpeed(speed1,speed2);
       }
-    }else{
-      car.setSpeed(0);
-    }
     
     if (cases.equals("BB") && sportM.equals("ON")){
       speed1=-100;
@@ -195,12 +190,12 @@ void switchCases(String command){
 
     if (cases.equals("FF") && sportM.equals("OF")){
         speed=0;
-        while(speed<=50){
+        while(speed<=70){
           if(Serial1.available()>0){
             break;
             }
-            speed=speed+1;    
-            Serial1.write(speed);
+            speed=speed+1;   
+            Serial1.print((char)speed);
             car.setSpeed(speed);
             delay(20);
             
@@ -209,12 +204,12 @@ void switchCases(String command){
 
     if (cases.equals("BB") && sportM.equals("OF")){
       speed=0;
-        while(speed >=-50){
+        while(speed >=-70){
           if(Serial1.available()>0){
             break;
             }
             speed=speed-1;
-            Serial1.write(speed);
+            Serial1.print(speed);
 
             car.setSpeed(speed);
             delay(20);
@@ -225,12 +220,12 @@ void switchCases(String command){
     if (cases.equals("LF")&& sportM.equals("OF")){
       speed1=0;
       speed2=0;
-      while(speed1 <= 50){
-          if(Serial1.available()>0){
-            break;
+      while(speed1 <= 70){
+            if(Serial1.available()>0){
+                break;
             }
             speed1=speed1+1;
-            Serial1.write(speed1);
+            Serial1.print(speed1);
 
             car.overrideMotorSpeed(speed1,speed2);
             delay(20);
@@ -242,12 +237,12 @@ void switchCases(String command){
     if (cases.equals("RF")&& sportM.equals("OF")){
       speed1=0;
       speed2=0;
-      while(speed2<=50){
+      while(speed2<=70){
         if(Serial1.available()>0){
           break;
           }
           speed2=speed2+1;
-          Serial1.write(speed2);
+          Serial1.print(speed2);
 
           car.overrideMotorSpeed(speed1,speed2);
           delay(20);
@@ -257,14 +252,15 @@ void switchCases(String command){
     if (cases.equals("LB")&& sportM.equals("OF")){
       speed1=0;
       speed2=0;
-      while(speed1 >= -50){
-          if(Serial1.available()>0){
-            break;
-            }
+      while(speed1 >= -70){
+          
             speed1=speed1-1;            
-            Serial1.write(speed1);
+            Serial1.print(speed1);
 
             car.overrideMotorSpeed(speed1,speed2);
+            if(Serial1.available()>0){
+            break;
+            }
             delay(20);
           }
     }
@@ -272,12 +268,12 @@ void switchCases(String command){
     if (cases.equals("RB")&& sportM.equals("OF")){
       speed1=0;
       speed2=0;
-      while(speed2 >= -50){
+      while(speed2 >= -70){
         if(Serial1.available()>0){
           break;
           }
           speed2=speed2-1;            
-          Serial1.write(speed2);
+          Serial1.print(speed2);
 
           car.overrideMotorSpeed(speed1,speed2);
           delay(20);
@@ -288,10 +284,10 @@ void switchCases(String command){
     if (cases.equals("RL")&& sportM.equals("OF")){
       speed1=0;
       speed2=0;
-      while(speed1>=-50 && speed2 <= 50){
+      while(speed1>=-70 && speed2 <= 70){
         speed1=speed1 - 1;
         speed2=speed2 + 1;
-        Serial1.write(speed2);
+        Serial1.print(speed2);
 
         car.overrideMotorSpeed(speed1,speed2);
         delay(20);
@@ -302,10 +298,10 @@ void switchCases(String command){
     if (cases.equals("LR")&& sportM.equals("OF")){
       speed1=0;
       speed2=0;
-      while(speed1 <= 50 && speed2>=-50){
+      while(speed1 <= 70 && speed2>=-70){
         speed1=speed1+1;
         speed2=speed2-1;            
-        Serial1.write(speed1);
+        Serial1.print(speed1);
 
         car.overrideMotorSpeed(speed1,speed2);
         delay(20);
@@ -374,12 +370,8 @@ void switchCases(String command){
         Serial1.print(speed1);
         car.overrideMotorSpeed(speed1,speed2);
 
-        time_now = millis();
-
-        //delay
-        while(millis() < time_now + period){
-            breakLightOFF();
-        }
+    }else{
+        breakLightOFF();
     }
 
     //------------------------Adaptive cruise Control------------------->>
@@ -412,6 +404,7 @@ void switchCases(String command){
     //-----------------------------------------------------------
     //------------------------Obstacle Manouvering------------------->>
     if (cases.equals("OM")){
+        finishedTurning=false;        
         speed = 0;
         while (finishedTurning == false){
             turnFunction();
@@ -536,16 +529,10 @@ void staticCruiseControl(int minSpeed){
             speed = minSpeed;  //set the car speed to the minimum speed predefined if the collision distance is greater than 30
         }
         if (colli<30 && colli>0 ){
-          while (speed >= 1){
-
-            time_now = millis();
-
-            //delay
-            while(millis() < time_now + period){
-              speed =speed-1;
+            while (speed >= 1){
+  
+                speed =speed-1;
             }
-
-          }
         } else{
             car.setAngle(-20);
             car.setSpeed(minSpeed);
@@ -769,7 +756,7 @@ void stopCar(){
 //-----------------------Basic obstacle detection -------
 bool obstacleDetection(){
   int colli = front.getDistance();
-  if (colli <30){
+  if (colli <30 && colli >0){
     return true;
   }else{
     return false;
