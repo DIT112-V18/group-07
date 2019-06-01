@@ -6,23 +6,12 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Buttons" />
+            android:id="@+id/nav_button"
+            android:title="Button Control" />
 
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Gestures" />
+            android:id="@+id/nav_tilt"
+            android:title="Tilt Control" />
 
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Tilt" />
-
-        <item
-            android:id="@+id/nav_share"
-            android:icon="@drawable/ic_menu_share"
-            android:title="Car Information" />
     </group>
 </menu>
