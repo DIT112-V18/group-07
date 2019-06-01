@@ -58,13 +58,14 @@ The features are of course dependant on the hardware we are using. We were using
 ## Hardware Used
 - Arduino MEGA 2560
 - SmartCar
-- 5x Ultrasonic sensors 
-- 1x IR Sensor 
+- 4x Ultrasonic sensors (Mounted on the front, back , left and right of the car for obstacle detection)
+- 1x IR Sensor (Mounted infront of the car to detect the line for the autopilot feature) 
 - 3x Breadboards
 - Battery Pack(4 batteries)
 - Bluetooth HC-06
 - 4x DC motors
 - Gyroscope
+- 4x Leds (Two mounted on the front and two on the back. The ones up front as headlights and the ones in the back as taillights)
 - 2x Odometers
 - Android Smartphone (running Android 9.0 or later) 
 - USB A-B Cable
@@ -75,6 +76,8 @@ The features are of course dependant on the hardware we are using. We were using
 - Android Studio
 - Visual Paradigm (Software architecture)
 
+## Installation and getting started
+ 
 ## Project Developers  
 - Lema Rassul
 - Talha Hussain
