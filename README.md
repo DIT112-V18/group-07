@@ -13,11 +13,12 @@
 * Stop
 * Turn left and right
 
-## Sportmode On:
+## Sportmode: 
+ ** WHEN SPORTMODE IS ON
 * Speed is set to maximum speed instantly
 * Speed is decreased instantly meaning instant braking
 
-## Sportmode Off: 
+ ** WHEN SPORTMODE IS OFF
 * Speed is increased or decreased gradually 
 * Does not reach maximum speed
 
