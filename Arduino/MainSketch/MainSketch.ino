@@ -18,8 +18,8 @@ const int TRIGGER_PIN_R = 48 ; //D48 right
 const int ECHO_PIN_R = 46 ; //D46 right
 const unsigned int MAX_DISTANCE = 100;
 String cmd;                                                //command received from bluetooth
-int speed1, speed2;
-int speed = 0;                                                  //ACC speed
+float speed1, speed2;
+float speed = 0;                                                  //ACC speed
 int offset;
 
 SR04 front(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);                //bluetooth value reciever front
@@ -125,12 +125,17 @@ void switchCases(String command){
             RL right wheels forward left wheels backward
             LR left wheels forward right wheels backward
 */
-    if (cases.equals("FF") && sportM.equals("ON")){
-      speed1=100;
-      speed2=100;
-      car.overrideMotorSpeed(speed1,speed2);
+   if (obstacleDetection()==false){                    //obstacle detection
+  
+      if (cases.equals("FF") && sportM.equals("ON")){
+        speed1=100;
+        speed2=100;
+        car.overrideMotorSpeed(speed1,speed2);
+      }
+    }else{
+      car.setSpeed(0);
     }
-
+    
     if (cases.equals("BB") && sportM.equals("ON")){
       speed1=-100;
       speed2=-100;
@@ -191,9 +196,11 @@ void switchCases(String command){
           if(Serial1.available()>0){
             break;
             }
-            speed=speed+1;
+            speed=speed+1;    
+            Serial1.write(speed);
             car.setSpeed(speed);
             delay(20);
+            
           }
     }
 
@@ -204,6 +211,8 @@ void switchCases(String command){
             break;
             }
             speed=speed-1;
+            Serial1.write(speed);
+
             car.setSpeed(speed);
             delay(20);
           }
@@ -218,6 +227,8 @@ void switchCases(String command){
             break;
             }
             speed1=speed1+1;
+            Serial1.write(speed1);
+
             car.overrideMotorSpeed(speed1,speed2);
             delay(20);
           }
@@ -233,6 +244,8 @@ void switchCases(String command){
           break;
           }
           speed2=speed2+1;
+          Serial1.write(speed2);
+
           car.overrideMotorSpeed(speed1,speed2);
           delay(20);
           }
@@ -245,7 +258,9 @@ void switchCases(String command){
           if(Serial1.available()>0){
             break;
             }
-            speed1=speed1-1;
+            speed1=speed1-1;            
+            Serial1.write(speed1);
+
             car.overrideMotorSpeed(speed1,speed2);
             delay(20);
           }
@@ -258,7 +273,9 @@ void switchCases(String command){
         if(Serial1.available()>0){
           break;
           }
-          speed2=speed2-1;
+          speed2=speed2-1;            
+          Serial1.write(speed2);
+
           car.overrideMotorSpeed(speed1,speed2);
           delay(20);
           }
@@ -271,6 +288,8 @@ void switchCases(String command){
       while(speed1>=-50 && speed2 <= 50){
         speed1=speed1 - 1;
         speed2=speed2 + 1;
+        Serial1.write(speed2);
+
         car.overrideMotorSpeed(speed1,speed2);
         delay(20);
 
@@ -282,7 +301,9 @@ void switchCases(String command){
       speed2=0;
       while(speed1 <= 50 && speed2>=-50){
         speed1=speed1+1;
-        speed2=speed2-1;
+        speed2=speed2-1;            
+        Serial1.write(speed1);
+
         car.overrideMotorSpeed(speed1,speed2);
         delay(20);
 
@@ -364,8 +385,9 @@ void switchCases(String command){
         while (true){
             if (Serial1.available()>0){
                 break;
+            }else {
+                adaptiveCruise(minDist);
             }
-            adaptiveCruise(minDist);
         }
     }
 
@@ -385,12 +407,10 @@ void switchCases(String command){
         car.setSpeed(0);
     }
     //-----------------------------------------------------------
-    //-----------------------------------------------------------
     //------------------------Obstacle Manouvering------------------->>
     if (cases.equals("OM")){
         speed = 0;
         while (finishedTurning == false){
-
             turnFunction();
         }
         finishedTurning = true;
@@ -403,9 +423,10 @@ void switchCases(String command){
         speed2 = 35;
         speed = 0;
         while (true){
-            if (Serial1.available()>0){
-                break;
-            }else {
+            if (obstacleDetection()==true){
+              car.setSpeed(0);
+            }
+            else {
 
                 int LSensorVal = digitalRead(sensorPinL);
                 int RSensorVal = digitalRead(sensorPinR);
@@ -413,15 +434,18 @@ void switchCases(String command){
 
 
                 if ((LSensorVal== 1) && (CSensorVal==0) && (RSensorVal==1)){ moveForward(); }
-  
+
                 if ((LSensorVal ==0) && (CSensorVal==1) &&(RSensorVal==1)){ moveLeft();}
                 if ((LSensorVal == 0) && (CSensorVal == 0) && (RSensorVal==1)){ moveLeft();}
-  
+
                 if((LSensorVal==1) && (CSensorVal ==1) && (RSensorVal==0)){ moveRight();}
                 if((LSensorVal==1) && (CSensorVal ==0) && (RSensorVal==0)){ moveRight();}
-  
-                if((LSensorVal ==0) && (CSensorVal==0) && (RSensorVal==0)){ stopCar();} 
-                if((LSensorVal ==1) && (CSensorVal==1) && (RSensorVal==1)){ stopCar();} 
+
+                if((LSensorVal ==0) && (CSensorVal==0) && (RSensorVal==0)){ stopCar();}
+                if((LSensorVal ==1) && (CSensorVal==1) && (RSensorVal==1)){ stopCar();}
+            }
+            if (Serial1.available()>0){
+                break;
             }
         }
     }
@@ -431,10 +455,15 @@ void switchCases(String command){
 
 //-----------------------Adaptive - Cruise - Control------------------
 
-  void adaptiveCruise(int safetyDistance){
+void adaptiveCruise(int safetyDistance){
 
   int colli = front.getDistance();
+  seeSpeed(colli, safetyDistance);
 
+}
+
+void seeSpeed(int colli, int safetyDistance){
+    car.setAngle(-20);
   if (colli<safetyDistance && colli>0 ){
     if (speed >= 1){
       speed =speed-1;
@@ -443,28 +472,21 @@ void switchCases(String command){
       car.setSpeed(speed);
     }
 
-  } else{
-          seeSpeed(colli);
   }
-}
 
-void seeSpeed(int colli){
-    car.setAngle(-20);
-  if (colli >= 30 && colli<40){
+  if (colli >= 30 && colli<40 && colli && safetyDistance > colli){
     speed = 10;
     //car.setAngle(-13);
     car.setSpeed(speed);
     //car.overrideMotorSpeed(speed-16,speed);
   }
-  else if (colli >= 40 && colli<50){
+  else if (colli >= 40 && colli<50 && safetyDistance > colli){
     speed = 20;
     //car.setAngle(-13);
     car.setSpeed(speed);
-
     //car.overrideMotorSpeed(speed-16,speed);
-
   }
-  else if (colli >= 40 && colli<60){
+  else if (colli >= 40 && colli<60 && safetyDistance > colli){
     speed = 30;
     //car.setAngle(-13);
     car.setSpeed(speed);
@@ -472,24 +494,24 @@ void seeSpeed(int colli){
     //car.overrideMotorSpeed(speed-offset,speed);
 
   }
-  else if (colli >= 60 && colli<70){
+  else if (colli >= 60 && colli<70 && safetyDistance > colli){
     speed = 40;
     //car.setAngle(-13);
     car.setSpeed(speed);
     //car.overrideMotorSpeed(speed-offset,speed);
 
   }
-  else if (colli >= 70 && colli<80){
+  else if (colli >= 70 && colli<80 && safetyDistance > colli){
     speed = 50;
     car.setSpeed(speed);
 
   }
-  else if (colli >= 80 && colli<90){
+  else if (colli >= 80 && colli<90 && safetyDistance > colli){
     speed = 60;
     car.setSpeed(speed);
 
   }
-  else if (colli >= 90 || colli == 0 ){
+  else if (colli >= 90 || colli == 0  && safetyDistance > colli){
     speed = 70;
 
     car.setSpeed(speed);
@@ -497,7 +519,6 @@ void seeSpeed(int colli){
 
   car.update();
 }
-
 
 //------------------------------------------------------------------
 //-----------------------Static - Cruise - Control------------------
@@ -740,4 +761,14 @@ void stopCar(){
   car.overrideMotorSpeed(speed1,speed2);
 
   
+}
+
+//-----------------------Basic obstacle detection -------
+bool obstacleDetection(){
+  int colli = front.getDistance();
+  if (colli <30){
+    return true;
+  }else{
+    return false;
+  }
 }
