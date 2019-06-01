@@ -1,5 +1,11 @@
 #include <Smartcar.h>
 
+
+
+#define sensorPinL 27
+#define sensorPinC 25
+#define sensorPinR 23
+
 const unsigned short LEFT_ODOMETER_PIN = 2;
 const unsigned short RIGHT_ODOMETER_PIN = 3;
 const unsigned long PRINT_INTERVAL = 100;
@@ -43,7 +49,11 @@ int prevColli=0;
 
 
 void setup() {
-
+    // AD
+    pinMode(frontLED1,OUTPUT);
+    pinMode(frontLED2,OUTPUT);
+    pinMode(backLEDs,OUTPUT);
+    //Lights
     pinMode(frontLED1,OUTPUT);
     pinMode(frontLED2,OUTPUT);
     pinMode(backLEDs,OUTPUT);
@@ -94,14 +104,14 @@ void switchCases(String command){
             HO headlights turn ON
             HF headlights turn OFF
 */
-    if(cases.equals("HO")){
+    if(com.equals("LION")){
       digitalWrite(frontLED1,HIGH);
       digitalWrite(frontLED2,HIGH);
     }
 
-    if(cases.equals("HF")){
+    if(com.equals("LIOF")){
       digitalWrite(frontLED1,LOW);
-      digitalWrite(frontLED2,HIGH);
+      digitalWrite(frontLED2,LOW);
     }
 
 //---------------------------MOBILITY Sport mode ON------------------------->>
@@ -385,12 +395,39 @@ void switchCases(String command){
         }
         finishedTurning = true;
     }
+    //-----------------------------------------------------------
+    //------------------------ Autonomous Driving ------------------->>
+    if (cases.equals("AD")){
+      
+        speed1 =35;
+        speed2 = 35;
+        speed = 0;
+        while (true){
+            if (Serial1.available()>0){
+                break;
+            }else {
+
+                int LSensorVal = digitalRead(sensorPinL);
+                int RSensorVal = digitalRead(sensorPinR);
+                int CSensorVal = digitalRead(sensorPinC);
+
+
+                if ((LSensorVal== 1) && (CSensorVal==0) && (RSensorVal==1)){ moveForward(); }
+  
+                if ((LSensorVal ==0) && (CSensorVal==1) &&(RSensorVal==1)){ moveLeft();}
+                if ((LSensorVal == 0) && (CSensorVal == 0) && (RSensorVal==1)){ moveLeft();}
+  
+                if((LSensorVal==1) && (CSensorVal ==1) && (RSensorVal==0)){ moveRight();}
+                if((LSensorVal==1) && (CSensorVal ==0) && (RSensorVal==0)){ moveRight();}
+  
+                if((LSensorVal ==0) && (CSensorVal==0) && (RSensorVal==0)){ stopCar();} 
+                if((LSensorVal ==1) && (CSensorVal==1) && (RSensorVal==1)){ stopCar();} 
+            }
+        }
+    }
 
     //---------------------------END Switch Cases--------------------------
   }
-
-
-
 
 //-----------------------Adaptive - Cruise - Control------------------
 
@@ -661,3 +698,46 @@ void breakLightOFF(){
     digitalWrite(backLEDs,LOW);
 }
 //------------------------------------------------------------------
+//---------------methods for autonomous car -------------------
+
+
+
+void moveForward(){
+  int speed1 =35;
+   int speed2 = 35;
+  car.overrideMotorSpeed(speed1,speed2);
+  Serial.println(" move Forward");
+
+//delay(50);
+
+  }
+
+
+void moveLeft(){
+   Serial.println(" move Left");
+ int speed1 =0;
+   int speed2 = 35;
+  car.overrideMotorSpeed(speed1,speed2);
+  //delay(50);
+  
+  
+  }
+
+void moveRight(){
+   Serial.println(" move Right");
+  
+  int speed1 =35;
+   int speed2 = 0;
+  car.overrideMotorSpeed(speed1,speed2);
+ 
+}
+ 
+
+void stopCar(){
+   Serial.println(" Stop ");
+     int speed1 =0;
+   int speed2 = 0;
+  car.overrideMotorSpeed(speed1,speed2);
+
+  
+}
