@@ -1,67 +1,61 @@
 # group-07
-## What are we going to make?
-- We aim to create a remote controlled car emphasizing on hassle-free use and automation. 
+## What?
+We aim to create a remote controlled car emphasizing on hassle-free use and automation. 
 
-## Features: 
+## Features 
 
-### Obstacle detection and manoeuvring:
+### Obstacle detection and manoeuvring
 * Alert for detection of obstacle
 * Automatic braking upon detecting obstacle 
 * Drive around obstacle when detected
 
-### Mobility:
+### Mobility
 * Forward
 * Reverse
 * Stop
 * Turn left and right
 
-### Sportmode: 
- ** WHEN SPORTMODE IS ON
+### Sportmode 
+**SPORTMODE ACTIVATED**
 * Speed is set to maximum speed instantly
 * Speed is decreased instantly meaning instant braking
 
- ** WHEN SPORTMODE IS OFF
+**SPORTMODE DEACTIVATED**
 * Speed is increased or decreased gradually 
 * Does not reach maximum speed
 
-### Cruise control:
+### Cruise control
 * Static Cruise Control. User can set a defined speed
 * Adaptive Cruise Control. Adapts the speed to the object infront of it
 
-### Autonomous parking:
-* The car will search for parking and then parallel park when the space is found
-
-### Tilt control: 
+### Tilt control 
 * Turning left or right by tilting the phone 
 
-### Autopilot driving: 
+### Autopilot driving 
 * Car will be able to drive on and follow a single line
 
 ### Tail lamps and head lamps
 * Tail lamps will turn on upon braking
 * The user will be able to toggle the head lamps on and off
 
-## Why will we make it?
-The obstacle detection feature ensures the safety of the car and it's surroundings. It will make sure that the car doesn't    crash into stationary or moving objects.
- 
-The cruise control feature will be added to minimise the need of repeated user input to perform basic straight line mobility. 
+## Why?
+Our product has several functionalities. Each feature has a purpose that can solve a real world problem. 
+We think if we are able to understand and make these features work on a smaller scale then we can lay out the blueprint for how it should be programmed for real vehicle use. By using a small Smart car we can test out the features and check for any problems that may occur in real scenarios. 
 
-The car needs to be able to manoeuvre forward, backwards, left ,right and also be able to stop in order to provide the staple functionalities of a car. Basic mobility that is a requirement in any modern car.  
 
-The tilt control feature provides an easier way to maneuver the car. By tilting the phone, the car will either move left or right. Eliminating the problem of tapping several buttons to move the car left and right. It is a smarter way of moving the car.
+## How?
+We used android studio to make an application where we can remotely control the car. The app has butttons that can turn on a feature of the car when needed. The app is connected to the car via the bluetooth on the arduino. 
 
-Parking esentially follows a general algorithm. We have employed this algorithm to automate parking of the car, hence reducing redundant work-load on the user. 
+We also used the Arduino IDE and the Smart Car shield library to program the features needed. 
 
-Tail lamps and brake lamps increase visibility of the car in it's surroundings, thus adding to the factor of safety. 
+The features are of course dependant on the hardware we are using. We were using these for the features: 
+* Obstacle detection and manoeuvring were made by using ultrasonic sensor
+* Mobility was implemented through the smartcar library and the gyroscope
+* Cruise control was managed by an ultrasonic sensor
+* Tilt Control was be managed by the gyroscope in the users mobile device
+* Autopilot was managed by the infrared sensor 
 
-## How will it be made?
-* Obstacle detection and manoeuvring will be made by using ultrasonic sensor
-* Mobility will be implemented through the smartcar library and the gyroscope
-* Cruise control and autonomous parking will be managed by an ultrasonic sensor
-* Tilt Control will be managed by the gyroscope in the users mobile device
-* Autopilot will be managed by the infrared sensor 
-
-## Hardware Used:
+## Hardware Used
 - Arduino MEGA 2560
 - SmartCar
 - 5x Ultrasonic sensors 
@@ -76,12 +70,12 @@ Tail lamps and brake lamps increase visibility of the car in it's surroundings, 
 - USB A-B Cable
 - Surge protector 
 
-## Software used:
+## Software used
 - Arduino IDE
 - Android Studio
 - Visual Paradigm (Software architecture)
 
-## Project Developers:  
+## Project Developers  
 - Lema Rassul
 - Talha Hussain
 - Haider Ali
