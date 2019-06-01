@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DeviceList">
+    tools:context=".DeviceList"
+    >
 
     <ListView
         android:id="@+id/listviewpr"
@@ -26,12 +27,10 @@
         android:layout_marginBottom="8dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-
-        android:background="@drawable/roundbutton"
+        android:background="@drawable/paired_dev_button"
         android:text="Show Paired Devices"
         app:layout_constraintBottom_toTopOf="@+id/listviewpr"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-
         />
 </android.support.constraint.ConstraintLayout>
