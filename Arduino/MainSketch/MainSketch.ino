@@ -16,15 +16,18 @@ const int TRIGGER_PIN_L = 52; //D52 left
 const int ECHO_PIN_L = 50 ; //D50 left
 const int TRIGGER_PIN_R = 48 ; //D48 right
 const int ECHO_PIN_R = 46 ; //D46 right
+const int TRIGGER_PIN_B = 53; //D53 back
+const int ECHO_PIN_B = 51; //D51 back
 const unsigned int MAX_DISTANCE = 100;
 String cmd;                                                //command received from bluetooth
-float speed1, speed2;
-float speed = 0;                                                  //ACC speed
+int speed1, speed2;
+int speed = 0;                                                  //ACC speed
 int offset;
 
 SR04 front(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);                //bluetooth value reciever front
 SR04 right(TRIGGER_PIN_R, ECHO_PIN_R, MAX_DISTANCE);                //bluetooth value reciever right
 SR04 left(TRIGGER_PIN_L, ECHO_PIN_L, MAX_DISTANCE);                //bluetooth value reciever left
+SR04 back(TRIGGER_PIN_B, ECHO_PIN_B, MAX_DISTANCE);                 //bluetooth value reciever back
 bool finishedTurning = false;
 
 
