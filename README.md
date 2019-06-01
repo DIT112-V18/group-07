@@ -4,8 +4,8 @@
 
 ## Obstacle detection and manoeuvring:
 * Alert for detection of obstacle
-* Automatic braking
-* Drive around obstacle
+* Automatic braking upon detecting obstacle 
+* Drive around obstacle when detected
 
 ## Mobility:
 * Forward
@@ -13,18 +13,26 @@
 * Stop
 * Turn left and right
 
+## Sportmode On:
+* Speed is set to maximum speed instantly
+* Speed is decreased instantly meaning instant braking
+
+## Sportmode Off: 
+* Speed is increased or decreased gradually 
+* Does not reach maximum speed
+
 ## Cruise control:
-* Static
-* Adaptive
+* Static Cruise Control. User can set a defined speed
+* Adaptive Cruise Control. Adapts the speed to the object infront of it
 
 ## Autonomous parking:
-* Parallel parking
+* The car will search for parking and then parallel park when the space is found
 
 ## Tilt control: 
-* Basic mobility 
+* Turning left or right by tilting the phone 
 
 ## Autopilot driving: 
-* Driving on a single line
+* Car will be able to drive on and follow a single line
 
 ## Tail lamps and head lamps
 * Tail lamps will turn on upon braking
