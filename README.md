@@ -82,3 +82,5 @@ The features are of course dependant on the hardware we are using. We were using
 - Osman Osman
 - Mujahid Khan
 - Ali Aziz
+
+https://github.com/DIT112-V19/group-07/blob/master/Carduino-Manual.pdf
