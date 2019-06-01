@@ -18,8 +18,8 @@ const int TRIGGER_PIN_R = 48 ; //D48 right
 const int ECHO_PIN_R = 46 ; //D46 right
 const unsigned int MAX_DISTANCE = 100;
 String cmd;                                                //command received from bluetooth
-int speed1, speed2;
-int speed = 0;                                                  //ACC speed
+float speed1, speed2;
+float speed = 0;                                                  //ACC speed
 int offset;
 
 SR04 front(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);                //bluetooth value reciever front
@@ -191,9 +191,11 @@ void switchCases(String command){
           if(Serial1.available()>0){
             break;
             }
-            speed=speed+1;
+            speed=speed+1;    
+            Serial1.write(speed);
             car.setSpeed(speed);
             delay(20);
+            
           }
     }
 
@@ -204,6 +206,8 @@ void switchCases(String command){
             break;
             }
             speed=speed-1;
+            Serial1.write(speed);
+
             car.setSpeed(speed);
             delay(20);
           }
@@ -218,6 +222,8 @@ void switchCases(String command){
             break;
             }
             speed1=speed1+1;
+            Serial1.write(speed1);
+
             car.overrideMotorSpeed(speed1,speed2);
             delay(20);
           }
@@ -233,6 +239,8 @@ void switchCases(String command){
           break;
           }
           speed2=speed2+1;
+          Serial1.write(speed2);
+
           car.overrideMotorSpeed(speed1,speed2);
           delay(20);
           }
@@ -245,7 +253,9 @@ void switchCases(String command){
           if(Serial1.available()>0){
             break;
             }
-            speed1=speed1-1;
+            speed1=speed1-1;            
+            Serial1.write(speed1);
+
             car.overrideMotorSpeed(speed1,speed2);
             delay(20);
           }
@@ -258,7 +268,9 @@ void switchCases(String command){
         if(Serial1.available()>0){
           break;
           }
-          speed2=speed2-1;
+          speed2=speed2-1;            
+          Serial1.write(speed2);
+
           car.overrideMotorSpeed(speed1,speed2);
           delay(20);
           }
@@ -271,6 +283,8 @@ void switchCases(String command){
       while(speed1>=-50 && speed2 <= 50){
         speed1=speed1 - 1;
         speed2=speed2 + 1;
+        Serial1.write(speed2);
+
         car.overrideMotorSpeed(speed1,speed2);
         delay(20);
 
@@ -282,7 +296,9 @@ void switchCases(String command){
       speed2=0;
       while(speed1 <= 50 && speed2>=-50){
         speed1=speed1+1;
-        speed2=speed2-1;
+        speed2=speed2-1;            
+        Serial1.write(speed1);
+
         car.overrideMotorSpeed(speed1,speed2);
         delay(20);
 
