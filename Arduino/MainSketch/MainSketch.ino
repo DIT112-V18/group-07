@@ -42,8 +42,8 @@ DirectionlessOdometer rightOdometer(189);
 bool turnmood,step1,step2,step3;
 SmartCar car(control, gyroscope, leftOdometer, rightOdometer);
 
-bool rightS = false;
-bool leftS = false;
+bool rightS;
+bool leftS;
 int side = 0;
 int prevColli=0;
 
@@ -64,6 +64,8 @@ void setup() {
     speed1 = 0;
     speed2 = 0;
 
+    rightS = false;
+    leftS = false;
     turnmood = false;
     step1 = false;
     step2 = false;
@@ -128,11 +130,11 @@ void switchCases(String command){
             LR left wheels forward right wheels backward
 */
   
-      if (cases.equals("FF") && sportM.equals("ON")){
+    if (cases.equals("FF") && sportM.equals("ON")){
         speed1=100;
         speed2=100;
         car.overrideMotorSpeed(speed1,speed2);
-      }
+    }
     
     if (cases.equals("BB") && sportM.equals("ON")){
       speed1=-100;
@@ -214,7 +216,6 @@ void switchCases(String command){
             car.setSpeed(speed);
             delay(20);
           }
-
     }
 
     if (cases.equals("LF")&& sportM.equals("OF")){
@@ -404,12 +405,18 @@ void switchCases(String command){
     //-----------------------------------------------------------
     //------------------------Obstacle Manouvering------------------->>
     if (cases.equals("OM")){
+        rightS = false;
+        leftS = false;
+        turnmood = false;
+        step1 = false;
+        step2 = false;
+        step3 = false;
         finishedTurning=false;        
         speed = 0;
         while (finishedTurning == false){
             turnFunction();
         }
-        finishedTurning = true;
+        finishedTurning=true;
     }
     //-----------------------------------------------------------
     //------------------------ Autonomous Driving ------------------->>
@@ -453,67 +460,65 @@ void switchCases(String command){
 
 void adaptiveCruise(int safetyDistance){
 
-  int colli = front.getDistance();
-  seeSpeed(colli, safetyDistance);
+  seeSpeed(safetyDistance);
 
 }
 
-void seeSpeed(int colli, int safetyDistance){
-    car.setAngle(-20);
+void seeSpeed(int safetyDistance){
+    car.setAngle(-20);  
+    int colli = front.getDistance();
+
   if (colli<safetyDistance && colli>0 ){
     if (speed >= 1){
-      speed =speed-1;
+      speed =speed-10;
       delay(20);
       car.setAngle(-20);
       car.setSpeed(speed);
     }
 
-  }
-
-  if (colli >= 30 && colli<40 && colli && safetyDistance > colli){
+  }else if (colli >= 30 && colli<40 ){
     speed = 10;
     //car.setAngle(-13);
     car.setSpeed(speed);
     //car.overrideMotorSpeed(speed-16,speed);
   }
-  else if (colli >= 40 && colli<50 && safetyDistance > colli){
+  else if (colli >= 40 && colli<50){
     speed = 20;
     //car.setAngle(-13);
     car.setSpeed(speed);
     //car.overrideMotorSpeed(speed-16,speed);
   }
-  else if (colli >= 40 && colli<60 && safetyDistance > colli){
-    speed = 30;
+  else if (colli >= 40 && colli<60){
+    speed = 25;
     //car.setAngle(-13);
     car.setSpeed(speed);
 
     //car.overrideMotorSpeed(speed-offset,speed);
 
   }
-  else if (colli >= 60 && colli<70 && safetyDistance > colli){
+  else if (colli >= 60 && colli<70 ){
     speed = 40;
     //car.setAngle(-13);
     car.setSpeed(speed);
     //car.overrideMotorSpeed(speed-offset,speed);
 
   }
-  else if (colli >= 70 && colli<80 && safetyDistance > colli){
+  else if (colli >= 70 && colli<80 ){
     speed = 50;
     car.setSpeed(speed);
 
   }
-  else if (colli >= 80 && colli<90 && safetyDistance > colli){
+  else if (colli >= 80 && colli<90 ){
     speed = 60;
     car.setSpeed(speed);
 
   }
-  else if (colli >= 90 || colli == 0  && safetyDistance > colli){
+  else if (colli >= 90 || colli == 0 ){
     speed = 70;
 
     car.setSpeed(speed);
   }
 
-  car.update();
 }
 
 //------------------------------------------------------------------
@@ -549,7 +554,7 @@ void turnFunction(){
     int leftColli= left.getDistance();
 
     if (turnmood == false){
-        if (speed == 0 && colli < 30){
+        if (speed == 0){
           turnmood = true;
           prevColli = colli;
 
@@ -557,12 +562,10 @@ void turnFunction(){
           //myservo.write(0);             //watch the right side
 
           Serial.println(rightColli);
-          if (rightColli > (2*colli) || rightColli == 0){
+          if (rightColli > (50) || rightColli == 0){
             rightS = true;
           }
-
-          Serial.println(leftColli);
-          if (leftColli  > (2*colli) || leftColli == 0){
+          if (leftColli  > (50) || leftColli == 0){
             leftS = true;
           }
 
@@ -575,7 +578,7 @@ void turnFunction(){
             side = 4;             //left side starter
 
           }
-          else if (rightS == true){                       //turning to left
+          if (rightS == true){                       //turning to left
             turnRight();
             side = 1;             // . right side starter
           }
@@ -694,7 +697,7 @@ void turnLeft(){
     car.setSpeed(40);
     car.setAngle(-90);
     //car.overrideMotorSpeed(0,30);
-    delay(825);
+    delay(900);
     car.setSpeed(0);
     delay(10);
     car.setAngle(-18);
