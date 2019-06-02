@@ -75,6 +75,7 @@ The features are of course dependant on the hardware we are using. We were using
 - Arduino IDE
 - Android Studio
 - Visual Paradigm (Software architecture)
+The link for the diagram: https://docs.google.com/document/d/121GKme42fR9UmJSzo2zxWN20EKT08qdLo_ti4G-76is/edit
 
 ## Installation and getting started
 To be able to use the app you first have to install both the app and the arduino sketch has to be uploaded to the vehicle. 
